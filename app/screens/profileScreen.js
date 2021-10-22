@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native'
+import AppView from '../components/AppView';
 
 const profileScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>profile page</Text>
-    </View>
+    <AppView>
+
+    </AppView>
   )
 }
 
