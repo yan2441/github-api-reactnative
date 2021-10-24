@@ -9,9 +9,8 @@ const UserCard = ({ item, navigation }) => {
   return (
     <TouchableRipple onPress={() => { navigation.navigate("profile") }}>
       <Card.Title
-        title={item.title}
-        subtitle={item.subtitle}
-        left={(props) => <Avatar.Icon  {...props} icon="folder" />}
+        title={item.login}
+        left={(props) => <Avatar.Image {...props} source={{ uri: item.avatar_url }} />}
         right={(props) =>
           <MaterialIcons
             {...props}

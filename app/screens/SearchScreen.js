@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { Divider, TextInput } from 'react-native-paper';
 import AppView from '../components/AppView';
 import { MaterialIcons } from "@expo/vector-icons"
 import UserCard from '../components/UserCard';
+import api from "../api/client";
+import Loader from '../components/Loader';
+
+
 const SearchScreen = ({ navigation }) => {
-  const [text, setText] = useState('')
-
-  const data = [
-    {
-      id: 1,
-      title: 'name1',
-      subtitle: "sub1"
-    },
-    {
-      id: 2,
-      title: 'name2',
-      subtitle: "sub1"
-    },
-    {
-      id: 3,
-      title: 'name3',
-      subtitle: "sub1"
-    }
-  ]
+  const [query, setQuery] = useState('')
+  const [page, setPage] = useState(0)
+  const [userData, setUserData] = useState([])
 
 
+  const handleSearch = async (query) => {
+    setPage(1)
+    setUserData([])
+    const response = await api.getUsers(query)
+    const { items } = response.data
+    setUserData(items);
+  }
+
+  const handleLoadMore = async (query) => {
+    setPage(page + 1)
+    const response = await api.getMoreUsers(query, page)
+    const { items } = response.data
+    setUserData([...userData, ...items]);
+  }
 
   return (
     <AppView >
@@ -36,11 +38,11 @@ const SearchScreen = ({ navigation }) => {
           label="Search"
           placeholder="Search for Github user"
           style={styles.searchBar}
-          onChangeText={text => setText(text)}
+          onChangeText={query => setQuery(query)}
           right={
             <TextInput.Icon
               icon={() => <MaterialIcons name="search" size={30} />}
-              onPress={() => navigation.navigate("profile")}
+              onPress={() => handleSearch(query)}
             />
           }
         />
@@ -49,8 +51,14 @@ const SearchScreen = ({ navigation }) => {
       <View style={styles.resultContainer}>
         <FlatList
           ItemSeparatorComponent={Divider}
-          data={data}
+          data={userData}
           keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => {
+            console.log(page)
+            handleLoadMore(query, page)
+          }}
+          onEndReachedThreshold={1}
+          ListFooterComponent={Loader}
           renderItem={({ item }) => (
             <UserCard item={item} navigation={navigation} />
           )}
@@ -73,9 +81,11 @@ const styles = StyleSheet.create({
   resultContainer: {
     width: "100%",
     justifyContent: "center",
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingBottom: 40
   },
   searchBar: {
     width: "100%",
+    padding: 0
   }
 })
