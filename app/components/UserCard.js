@@ -7,7 +7,9 @@ import { MaterialIcons } from "@expo/vector-icons"
 const UserCard = ({ item, navigation }) => {
 
   return (
-    <TouchableRipple onPress={() => { navigation.navigate("profile") }}>
+    <TouchableRipple onPress={() => {
+      navigation.navigate("profile", { userDate: item })
+    }}>
       <Card.Title
         title={item.login}
         left={(props) => <Avatar.Image {...props} source={{ uri: item.avatar_url }} />}
@@ -16,7 +18,7 @@ const UserCard = ({ item, navigation }) => {
             {...props}
             name="arrow-forward-ios"
             size={20}
-            onPress={() => { navigation.navigate("profile") }}
+            onPress={() => { navigation.navigate("profile", { userDate: item }) }}
           />}
       />
     </TouchableRipple>
