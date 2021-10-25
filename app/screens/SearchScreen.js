@@ -10,23 +10,27 @@ import Loader from '../components/Loader';
 
 const SearchScreen = ({ navigation }) => {
   const [query, setQuery] = useState('')
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [userData, setUserData] = useState([])
 
 
-  const handleSearch = async (query) => {
-    setPage(1)
+  const handleSearch = async () => {
+    //clear the user data on new search
     setUserData([])
+    //get the new search response the store it to display it 
     const response = await api.getUsers(query)
     const { items } = response.data
     setUserData(items);
   }
 
-  const handleLoadMore = async (query) => {
+  const handleLoadMore = async () => {
+    //incriminate the page number to load more data
     setPage(page + 1)
-    const response = await api.getMoreUsers(query, page)
+    //get the additional data and add it with existing one to display it
+    const response = await api.getUsers(query, page)
     const { items } = response.data
-    setUserData([...userData, ...items]);
+    const newData = [...userData, ...items]
+    setUserData(newData);
   }
 
   return (
@@ -42,7 +46,7 @@ const SearchScreen = ({ navigation }) => {
           right={
             <TextInput.Icon
               icon={() => <MaterialIcons name="search" size={30} />}
-              onPress={() => handleSearch(query)}
+              onPress={handleSearch}
             />
           }
         />
@@ -51,13 +55,11 @@ const SearchScreen = ({ navigation }) => {
       <View style={styles.resultContainer}>
         <FlatList
           ItemSeparatorComponent={Divider}
+          //maxToRenderPerBatch={10}
+          keyExtractor={(item, index) => index.toString()}
           data={userData}
-          keyExtractor={(item) => item.id.toString()}
-          onEndReached={() => {
-            console.log(page)
-            handleLoadMore(query, page)
-          }}
-          onEndReachedThreshold={1}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.25}
           ListFooterComponent={Loader}
           renderItem={({ item }) => (
             <UserCard item={item} navigation={navigation} />
