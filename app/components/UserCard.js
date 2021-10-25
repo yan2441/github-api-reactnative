@@ -17,6 +17,7 @@ const UserCard = ({ item, navigation }) => {
           <MaterialIcons
             {...props}
             name="arrow-forward-ios"
+            color="white"
             size={20}
             onPress={() => { navigation.navigate("profile", { userDate: item }) }}
           />}

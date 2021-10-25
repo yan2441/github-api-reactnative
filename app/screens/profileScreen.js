@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "25%",
-    backgroundColor: "#D3D3D3"
+    backgroundColor: "#4f5b66"
   },
   reposContainer: {
     height: "75%"

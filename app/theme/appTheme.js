@@ -21,6 +21,8 @@ const CombinedDarkTheme = {
   colors: {
     ...PaperDarkTheme.colors,
     ...NavigationDarkTheme.colors,
+    primary: 'white',
+    background: "#404040"
   },
 };
 

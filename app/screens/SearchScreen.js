@@ -45,7 +45,7 @@ const SearchScreen = ({ navigation }) => {
           onChangeText={query => setQuery(query)}
           right={
             <TextInput.Icon
-              icon={() => <MaterialIcons name="search" size={30} />}
+              icon={() => <MaterialIcons color="white" name="search" size={30} />}
               onPress={handleSearch}
             />
           }

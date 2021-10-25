@@ -13,8 +13,8 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <PaperProvider theme={appTheme.CombinedDefaultTheme}>
-      <NavigationContainer theme={appTheme.CombinedDefaultTheme}>
+    <PaperProvider theme={appTheme.CombinedDarkTheme}>
+      <NavigationContainer theme={appTheme.CombinedDarkTheme}>
         <Stack.Navigator screenOptions={{
           header: (props) => <AppNavigationBar {...props} />,
         }}>
