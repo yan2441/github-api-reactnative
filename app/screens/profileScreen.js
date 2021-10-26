@@ -4,7 +4,7 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import { Avatar, Divider, Headline } from 'react-native-paper';
 import AppView from '../components/AppView';
 import api from '../api/repos'
-import RepoCard from '../components/repoCard';
+import RepoCard from '../components/RepoCard';
 import Loader from '../components/Loader';
 
 
